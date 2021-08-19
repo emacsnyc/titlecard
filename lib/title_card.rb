@@ -25,7 +25,8 @@ class TitleCard
   attr_reader :title, :attribution, :date
 
   def canvas
-    @_canvas ||= Magick::ImageList.new("assets/base.png").tap do |c|
+    @_canvas ||= Magick::ImageList.new.tap do |c|
+      c.new_image(*IMAGE_SIZE) { |i| i.background_color = BACKGROUND_COLOR }
       c.gravity = Magick::NorthGravity
       c.geometry = "0x0+0+40"
     end
