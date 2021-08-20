@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rmagick"
 
 class TitleCard
@@ -6,6 +7,7 @@ class TitleCard
   IMAGE_SIZE = [1280, 720]
   BACKGROUND_COLOR = "black"
   TEXT_COLOR = "white"
+  FONT_FAMILY = "DejaVu Sans Mono"
 
   def initialize(arguments)
     @title = arguments[0]
@@ -38,31 +40,31 @@ class TitleCard
 
   def add_title
     text = Magick::Draw.new
-    text.font_family = "DejaVu Sans Mono"
+    text.font_family = FONT_FAMILY
     text.pointsize = 32
     text.gravity = Magick::CenterGravity
-    text.annotate(canvas, 0, 0, 0, 30, title) {
-      self.fill = "white"
-    }
+    text.annotate(canvas, 0, 0, 0, 30, title) do
+      self.fill = TEXT_COLOR
+    end
   end
 
   def add_attribution
     text = Magick::Draw.new
-    text.font_family = "DejaVu Sans Mono"
+    text.font_family = FONT_FAMILY
     text.pointsize = 52
     text.gravity = Magick::CenterGravity
-    text.annotate(canvas, 0, 0, 0, 120, attribution) {
-      self.fill = "white"
-    }
+    text.annotate(canvas, 0, 0, 0, 120, attribution) do
+      self.fill = TEXT_COLOR
+    end
   end
 
   def add_date
     text = Magick::Draw.new
-    text.font_family = "DejaVu Sans Mono"
+    text.font_family = FONT_FAMILY
     text.pointsize = 52
     text.gravity = Magick::SouthGravity
-    text.annotate(canvas, 0, 0, 0, 40, date) {
-      self.fill = "white"
-    }
+    text.annotate(canvas, 0, 0, 0, 40, date) do
+      self.fill = TEXT_COLOR
+    end
   end
 end
