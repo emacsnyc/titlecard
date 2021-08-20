@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rmagick"
+require "date"
 
 class TitleCard
   LOGO_PATH = "assets/logo.png"
@@ -12,7 +13,7 @@ class TitleCard
   def initialize(arguments)
     @title = arguments[0]
     @attribution = arguments[1]
-    @date = arguments[2]
+    @date = Date.parse(arguments[2])
   end
 
   def generate
@@ -38,6 +39,10 @@ class TitleCard
     Magick::ImageList.new(LOGO_PATH)
   end
 
+  def formatted_date
+    date.strftime("%Y/%m/%d")
+  end
+
   def add_title
     text = Magick::Draw.new
     text.font_family = FONT_FAMILY
@@ -53,9 +58,8 @@ class TitleCard
     text.font_family = FONT_FAMILY
     text.pointsize = 52
     text.gravity = Magick::CenterGravity
-    text.annotate(canvas, 0, 0, 0, 120, attribution) do
-      self.fill = TEXT_COLOR
-    end
+    text.fill = TEXT_COLOR
+    text.annotate(canvas, 0, 0, 0, 170, attribution)
   end
 
   def add_date
@@ -63,8 +67,7 @@ class TitleCard
     text.font_family = FONT_FAMILY
     text.pointsize = 52
     text.gravity = Magick::SouthGravity
-    text.annotate(canvas, 0, 0, 0, 40, date) do
-      self.fill = TEXT_COLOR
-    end
+    text.fill = TEXT_COLOR
+    text.annotate(canvas, 0, 0, 0, 40, formatted_date)
   end
 end
